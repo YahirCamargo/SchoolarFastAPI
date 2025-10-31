@@ -4,12 +4,10 @@ from datetime import datetime
 from typing import Optional
 
 class PedidoBase(BaseModel):
-    fecha:datetime
     numero:str=Field(max_length=36)
     importe_productos:Decimal=Field(...,decimal_places=2,le=Decimal("99999999.99"))
     importe_envio:Decimal=Field(...,decimal_places=2,le=Decimal("9999.99"))
-    usuarios_id:int
-    metodos_pago_id:int
+    metodos_pago_id:str
     fecha_hora_pago:datetime | None
 
     class Config:
@@ -19,13 +17,11 @@ class PedidoBase(BaseModel):
         }
 
 class PedidoActualizar(BaseModel):
-    fecha:Optional[datetime]
     numero:Optional[str]=Field(max_length=36)
     importe_productos:Optional[Decimal]
     importe_envio:Optional[Decimal]
     fecha_hora_pago:Optional[datetime] | Optional[None]
-    usuarios_id: Optional[int] = None
-    metodos_pago_id: Optional[int] = None
+    metodos_pago_id: Optional[str] = None
     fecha_hora_pago: Optional[datetime] = None
     
 
@@ -35,8 +31,12 @@ class PedidoActualizar(BaseModel):
             datetime: lambda v: v.isoformat()
         }
 
+class PedidoCheckout(BaseModel):
+    metodos_pago_id: str
+    domicilios_id: str
+
 class PedidoResponder(PedidoBase):
-    id:int
+    id:str
     
     class Config:
         from_attributes=True

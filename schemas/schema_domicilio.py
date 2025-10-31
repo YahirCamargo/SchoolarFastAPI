@@ -1,4 +1,5 @@
 from pydantic import BaseModel, Field
+
 from typing import Optional
 
 class DomicilioBase(BaseModel):
@@ -8,7 +9,6 @@ class DomicilioBase(BaseModel):
     cp:str=Field(...,min_length=5,max_length=5)
     estado:str=Field(...,max_length=20)
     ciudad:str=Field(...,max_length=45)
-    usuarios_id:int
 
 class DomicilioActualizar(BaseModel):
     calle: Optional[str] = Field(None, max_length=45) 
@@ -17,10 +17,10 @@ class DomicilioActualizar(BaseModel):
     cp: Optional[str] = Field(None, max_length=5)
     estado: Optional[str] = Field(None, max_length=20)
     ciudad: Optional[str] = Field(None, max_length=45)
-    usuarios_id: Optional[int] = None
+    preferido: Optional[bool] = None
 
 class DomicilioResponder(DomicilioBase):
-    id:int
+    id:str
 
     class Config():
         from_attributes=True

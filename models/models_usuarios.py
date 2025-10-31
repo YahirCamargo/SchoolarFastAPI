@@ -16,8 +16,9 @@ class Usuario(Base):
     telefono = Column(CHAR(10))
     sexo = Column(Enum(SexoEnum), nullable=False) 
     fecha_nacimiento = Column(Date, nullable=False)
-    contrasena = Column(CHAR(60), nullable=False)
+    contrasena = Column(CHAR(255), nullable=False)
     fecha_registro = Column(DateTime, nullable=False, server_default=func.now(), index=True)
+    rol = Column(String(20),default="cliente",nullable=False)
 
 """
 CREATE TABLE `usuarios` (

@@ -7,7 +7,7 @@ class MetodoPagoBase(BaseModel):
 
 
 class MetodoPagoResponder(MetodoPagoBase):
-    id:int
+    id:str
 
     class Config:
         from_attributes = True

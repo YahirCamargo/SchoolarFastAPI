@@ -1,5 +1,5 @@
 from pydantic import BaseModel, EmailStr, Field
-from typing import Literal
+from typing import Literal, Optional
 from datetime import date
 
 class UsuarioBase(BaseModel):
@@ -18,9 +18,8 @@ class UsuarioLogin(BaseModel):
     contrasena:str
 
 class UsuarioResponder(UsuarioBase):
-    id:int
-    nombre:str
-    email:EmailStr
+    id:str
+    rol:str
 
     class Config:
         from_attributes = True

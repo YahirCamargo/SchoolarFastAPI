@@ -7,7 +7,7 @@ from schemas.schema_metodo_pago import MetodoPagoBase,MetodoPagoResponder
 from services.service_metodo_pago import obtener_metodo_pago,crear_metodo_pago,actualizar_metodo_pago,borrar_metodo_pago
 from starlette import status
 
-router = APIRouter(prefix="/metodos-pago",tags=["Metodos de Pago"])
+router = APIRouter(prefix="/payment-methods",tags=["Payment Methods"])
 
 def get_db():
     db = SessionLocal()
@@ -29,14 +29,14 @@ def crear_metodos_pagp(metodo: MetodoPagoBase, db:Session=Depends(get_db)):
     return resultado
 
 @router.put('/{metodo_id}',response_model=MetodoPagoResponder)
-def actualizar_metodos_pago(metodo_id:int,metodo_actualizar:MetodoPagoBase,db:Session=Depends(get_db)):
+def actualizar_metodos_pago(metodo_id:str,metodo_actualizar:MetodoPagoBase,db:Session=Depends(get_db)):
     resultado = actualizar_metodo_pago(metodo_id,metodo_actualizar,db)
     if not resultado:
         raise HTTPException(status_code=404,detail="Metodo de pago no encontrado")
     return resultado
 
 @router.delete('/{metodo_id}',response_model=MetodoPagoResponder)
-def eliminar_metodo_pago(metodo_id:int,db:Session=Depends(get_db)):
+def eliminar_metodo_pago(metodo_id:str,db:Session=Depends(get_db)):
     resultado = borrar_metodo_pago(db,metodo_id)
     if not resultado:
         raise HTTPException(status_code=404,detail="Metodo de pago no encontrado")

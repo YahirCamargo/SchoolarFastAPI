@@ -6,7 +6,6 @@ class EnvioBase(BaseModel):
     fecha_entrega : Optional[datetime] = None
     estado: str #dejar pendiente
     numero_seguimiento : str=Field(...,max_length=20)
-    domicilios_id : int
     pedidos_id : int
 
 class EnvioActualizar(BaseModel):
@@ -15,7 +14,7 @@ class EnvioActualizar(BaseModel):
     numero_seguimiento : Optional[str]=Field(None,max_length=20)
 
 class EnviosResponder(EnvioBase):
-    id : int
+    id : str
     fecha : datetime
     
     class Config:

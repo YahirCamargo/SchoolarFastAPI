@@ -1,5 +1,5 @@
 from sqlalchemy import Column, String, ForeignKey, Index
-from sqlalchemy.dialects.mysql import CHAR, SMALLINT
+from sqlalchemy.dialects.mysql import CHAR, SMALLINT, BOOLEAN
 from db.database import Base
 
 class Domicilios(Base):
@@ -11,6 +11,7 @@ class Domicilios(Base):
     cp = Column(CHAR(5), nullable=False)
     estado = Column(String(20), nullable=False)
     ciudad = Column(String(45),nullable=False)
+    preferido = Column(BOOLEAN, nullable=False, default=False)
     usuarios_id = Column(
         SMALLINT(unsigned=True),
         ForeignKey("usuarios.id",onupdate="CASCADE",ondelete="CASCADE"),
@@ -31,6 +32,7 @@ CREATE TABLE `domicilios` (
   `estado` varchar(20) NOT NULL,
   `ciudad` varchar(45) NOT NULL,
   `usuarios_id` smallint(5) unsigned NOT NULL,
+  'preferido' BOOLEAN NOT NULL DEFAULT FALSE
   PRIMARY KEY (`id`),
   KEY `fk_domicilios_usuarios_idx` (`usuarios_id`),
   KEY `idx_estado_ciudad` (`estado`,`ciudad`),

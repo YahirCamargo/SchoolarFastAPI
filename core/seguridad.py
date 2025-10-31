@@ -34,6 +34,8 @@ def verificar_contraseña(plain_password: str, hashed_password: str):
     return contraseña_contexto.verify(plain_password, hashed_password)
 
 def crear_token_acceso(data: dict, expires_delta: timedelta | None = None):
+    if "sub" not in data:
+        raise ValueError("El token debe incluir el campo sub")
     to_encode = data.copy()
     expira = datetime.utcnow() + (expires_delta or timedelta(minutes=settings.access_token_expire_minutes))
     to_encode.update({"exp": expira})
@@ -44,12 +46,16 @@ def verificar_token(token:str,credenciales_excepcion:HTTPException = CREDENTIALS
         payload = jwt.decode(
             token,
             settings.secret_key,
-            algorithms=[settings.algorithm]
+            algorithms=[settings.algorithm],
+            options={"verify_exp": True} 
         )
+        print("Hora")
+        print(datetime.utcnow())
         username:str=payload.get("sub")
         if username is None:
             raise credenciales_excepcion
         
         return payload 
-    except JWTError:
+    except JWTError as e:
+        print(f"Error de JWT: {e}")
         raise credenciales_excepcion
